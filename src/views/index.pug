@@ -1,0 +1,13 @@
+html 
+    head 
+        title= title
+        link(rel='stylesheet', href='/assets/index.css')
+    body 
+        h1 User profile Page
+        p Welcome to #{title}
+        h2.gold Nickname: #{users[0].name}
+        ul 
+        li 
+            a(href='/users') Users
+        li 
+            a(href='/users/create') Create User
