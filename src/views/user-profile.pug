@@ -1,0 +1,12 @@
+html 
+    head 
+        title= title
+        link(rel='stylesheet', href='/assets/index.css')
+    body 
+        h1 User profile Page
+        p Welcome to #{title}
+        h2.gold Nickname: #{user.name}
+        
+        form(action=`/users/${user.id}/avatar` method='post' enctype='multipart/form-data')
+            input(type='file' name='avatar')
+            button(type='submit') upload avatar
