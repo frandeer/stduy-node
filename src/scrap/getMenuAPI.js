@@ -1,4 +1,3 @@
-
 // 네이버 api를 이용한 검색
 
 const cheerio = require('cheerio');
@@ -27,8 +26,6 @@ function start() {
         type: '일품',
       })
     }
-
-
 
     // 한식 비동기로 데이터 받아오기
     const promises = list.map((el) => {
