@@ -28,6 +28,8 @@ function start() {
       })
     }
 
+
+
     // 한식 비동기로 데이터 받아오기
     const promises = list.map((el) => {
       el.date = res.today;
@@ -35,11 +37,27 @@ function start() {
       return getImage(el, index * 500)
     })
 
-    Promise.all(promises).then((res) => {
+    Promise.all(promises).then((data) => {
       console.log('====================================');
-      console.log(res);
+      console.log(data);
       console.log('====================================');
-      fs.writeFileSync('src/data/menu.json', JSON.stringify(res));
+
+      data.push({
+        name: '내일의 한식',
+        type: '내일한식',
+        list: res.tomorrowKorLunch,
+        date: res.tomorrow,
+      })
+
+      data.push({
+        name: '내일의 일품',
+        type: '내일일품',
+        list: res.tomorrowCouLunch,
+        date: res.tomorrow,
+      })
+
+
+      fs.writeFileSync('src/data/menu.json', JSON.stringify(data));
     }).catch((err) => {
         console.log(err);
     })
