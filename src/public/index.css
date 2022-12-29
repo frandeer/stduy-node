@@ -1,5 +1,8 @@
-body{
-    /* background-color: #eee; */
+body {
+	font-family: 'Noto Sans KR';
+	font-size: 14px;
+	/* color: #636363; */
+	background-color: #f9fafb;
 }
 
 .gold{
@@ -18,14 +21,15 @@ table {
 table td {
 	padding: 15px;
 }
-table thead td {
+table thead th {
 	background-color: #54585d;
-	color: #ffffff;
+	color: #ffffff !important;
 	font-weight: bold;
 	font-size: 13px;
 	border: 1px solid #54585d;
 }
 table tbody td {
+	font-size: 15px;
 	color: #636363;
 	border: 1px solid #dddfe1;
 }

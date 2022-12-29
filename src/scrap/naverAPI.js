@@ -19,6 +19,7 @@ function getImage(data, duration) {
         resolve({
           name: data.name,
           image: res.data.items[0].thumbnail,
+          image2: res.data.items[0].link,
           type: data.type,
           date: data.date,
         })
