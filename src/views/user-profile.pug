@@ -6,7 +6,9 @@ html
         h1 User profile Page
         p Welcome to #{title}
         h2.gold Nickname: #{user.name}
+        //- div #{user.avatar}
+        img(src=`${user.avatar}` alt='avatar' width='300px')
         
-        form(action=`/users/${user.id}/avatar` method='post' enctype='multipart/form-data')
+        form(action=`/user/${user.id}/avatar` method='post' enctype='multipart/form-data')
             input(type='file' name='avatar')
             button(type='submit') upload avatar

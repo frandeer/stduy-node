@@ -1,0 +1,30 @@
+html 
+    head 
+        title= title
+        link(rel='stylesheet', href='/assets/index.css')
+        link(rel='stylesheet', href='https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css')
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+
+    body.p-5
+        h1.font-bold.text-3xl #{menuList[0].date} 식당 메뉴판
+
+        hr.py-5
+
+        div
+          div
+            h2.font-bold.text-xl 한식
+            ul.flex 
+                each item in menuList
+                    if item.type == '한식'
+                        li 
+                            img.menuImg(src=`${item.image}` alt=`${item.name}`)
+                            p #{item.name}
+          div
+            h2.font-bold.text-xl 일품
+            ul.flex
+                each item in menuList
+                    if item.type == '일품'
+                        li
+                            img.menuImg(src=`${item.image}` alt=`${item.name}`)
+                            p #{item.name}
+        

@@ -1,0 +1,51 @@
+
+// 네이버 api를 이용한 검색
+
+const cheerio = require('cheerio');
+const axios = require('axios');
+const getImage = require('./naverAPI');
+const getMenu = require('./getMenu');
+
+const fs = require('fs');
+
+function start() {
+  getMenu().then((res) => {
+    const todayKorLunchList = res.todayKorLunch.split(',');
+    const todayCouLunchList = res.todayCouLunch.split(',');
+
+    let list = []
+    for(var i = 0; i < todayKorLunchList.length; i++) {
+      list.push({
+        name: todayKorLunchList[i].trim(),
+        type: '한식',
+      })
+    }
+
+    for(var i = 0; i < todayCouLunchList.length; i++) {
+      list.push({
+        name: todayCouLunchList[i].trim(),
+        type: '일품',
+      })
+    }
+
+    // 한식 비동기로 데이터 받아오기
+    const promises = list.map((el) => {
+      el.date = res.today;
+      var index = list.indexOf(el);
+      return getImage(el, index * 500)
+    })
+
+    Promise.all(promises).then((res) => {
+      console.log('====================================');
+      console.log(res);
+      console.log('====================================');
+      fs.writeFileSync('src/data/menu.json', JSON.stringify(res));
+    }).catch((err) => {
+        console.log(err);
+    })
+
+  })
+
+}
+
+module.exports = start

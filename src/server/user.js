@@ -9,7 +9,7 @@ const users = {
   1: { 
     id: 1, 
     name: 'John',
-    avatar: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+    avatar: '/uploads/1060c52876c58987efef0e6b24a8a935',
   },
   2: { 
       id: 2, 
@@ -32,12 +32,23 @@ router.get('/:id/profile', (req, res, next) => {
  res.render('user-profile', { user: users[req.params.id] });
 });
 
+
 router.post('/:id/avatar', upload.single('avatar'), (req, res, next) => {
+
+  console.log(req.file);
+
   const { id } = req.params;
-  const { file } = req;
   const user = users[id];
-  user.avatar = file.path;
-  res.redirect(`/user/${id}`);
+
+  const {fileName, path } = req.file;
+  // user.avatar = fileName;
+  user.avatar = "/" + path;
+
+  // const { id } = req.params;
+  // const { file } = req;
+  
+  // user.avatar = file.path;
+  res.redirect(`/user/${id}/profile`);
 });
 
 

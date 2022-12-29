@@ -12,14 +12,15 @@ const naverAPI = axios.create({
 });
 
 
-function getImage(query, type, duration) {
+function getImage(data, duration) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      naverAPI.get(`/v1/search/image?display=1&query=${query}`).then((res) => {
+      naverAPI.get(`/v1/search/image?display=1&query=${data.name}`).then((res) => {
         resolve({
-          name: query,
+          name: data.name,
           image: res.data.items[0].thumbnail,
-          type: type,
+          type: data.type,
+          date: data.date,
         })
       }).catch((err) => {
         reject(err);
