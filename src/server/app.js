@@ -14,12 +14,12 @@ const userRouter = require('./user');
 app.use('/user', userRouter);
 
 const menuRouter = require('./menu');
-app.use('/menu', menuRouter);
+app.use('/', menuRouter);
 
 
-app.get('/', (req, res, next) => {
-  res.send('Hello World');
-});
+// app.get('/', (req, res, next) => {
+//   res.send('Hello World');
+// });
 
 app.use((err, req, res, next) => {
   console.log('====================================');
