@@ -34,7 +34,7 @@ const getMenuApi = require('../scrap/getMenuAPI');
 
 
 // getMenuApi()
-cron.schedule('0 0 2 * * *', () => {
+cron.schedule('0 0 1 * * *', () => {
   console.log('메뉴 api 실행 :', new Date().toISOString());
   getMenuApi()
 });

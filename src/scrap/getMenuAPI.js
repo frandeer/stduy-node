@@ -6,6 +6,7 @@ const getImage = require('./naverAPI');
 const getMenu = require('./getMenu');
 
 const fs = require('fs');
+const path = require('path');
 
 function start() {
   getMenu().then((res) => {
@@ -35,9 +36,7 @@ function start() {
     })
 
     Promise.all(promises).then((data) => {
-      console.log('====================================');
-      console.log(data);
-      console.log('====================================');
+      // console.log(data);
 
       data.push({
         name: '내일의 한식',
@@ -54,7 +53,7 @@ function start() {
       })
 
 
-      fs.writeFileSync('src/data/menu.json', JSON.stringify(data));
+      fs.writeFileSync(path.join(__dirname, '../data/menu.json'), JSON.stringify(data));
     }).catch((err) => {
         console.log(err);
     })
