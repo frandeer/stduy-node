@@ -21,3 +21,5 @@ yarn-error.log
 # Jest Coverage
 coverage
 .DS_Store
+
+.env
