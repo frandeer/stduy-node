@@ -67,19 +67,19 @@ app.ws.use(
         }
       }).toArray()
 
-      ctx.websocket.send(JSON.stringify({
-        type: 'init',
-        payload: chats
-      }))
+      // ctx.websocket.send(JSON.stringify({
+      //   type: 'init',
+      //   payload: chats
+      // }))
 
 
 
       server.clients.forEach(client => {
         if (client.readyState === 1) {
+
           if (IsJsonString(data)) {
-
+            
             const chat = JSON.parse(data)
-
             chatCollection.insertOne({
               ...chat,
               createdAt: new Date()
