@@ -33,8 +33,9 @@ const cron = require('node-cron');
 const getMenuApi = require('../scrap/getMenuAPI');
 
 
-// getMenuApi()
-cron.schedule('0 0 1 * * *', () => {
+getMenuApi()
+// 매 1시간마다 메뉴 api 실행
+cron.schedule('0 * * * * ', () => {
   console.log('메뉴 api 실행 :', new Date().toISOString());
   getMenuApi()
 });

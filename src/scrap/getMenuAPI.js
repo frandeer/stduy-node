@@ -4,11 +4,22 @@ const cheerio = require('cheerio');
 const axios = require('axios');
 const getImage = require('./naverAPI');
 const getMenu = require('./getMenu');
+const { getJsonFile, setJsonFile } = require('./jsonFile');
 
-const fs = require('fs');
-const path = require('path');
+const dayjs = require('dayjs');
 
-function start() {
+async function start() {
+
+  // menu.json 파일을 읽어서 오늘 날짜 확인
+  const data = await getJsonFile();
+  const today = dayjs().format('MM-DD');
+
+  // 오늘 날짜와 menu.json 파일의 날짜가 다르면
+  if(data[0].date == today) {
+    console.log('오늘 메뉴가 이미 있습니다.');
+    return;
+  }
+
   getMenu().then((res) => {
     const todayKorLunchList = res.todayKorLunch.split(',');
     const todayCouLunchList = res.todayCouLunch.split(',');
@@ -53,7 +64,8 @@ function start() {
       })
 
 
-      fs.writeFileSync(path.join(__dirname, '../data/menu.json'), JSON.stringify(data));
+      setJsonFile(data)
+
     }).catch((err) => {
         console.log(err);
     })
