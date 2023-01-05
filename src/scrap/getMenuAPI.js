@@ -47,7 +47,6 @@ async function start() {
     })
 
     Promise.all(promises).then((data) => {
-      // console.log(data);
 
       data.push({
         name: '내일의 한식',
