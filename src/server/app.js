@@ -17,11 +17,6 @@ app.use('/user', userRouter);
 const menuRouter = require('./menu');
 app.use('/', menuRouter);
 
-
-// app.get('/', (req, res, next) => {
-//   res.send('Hello World');
-// });
-
 app.use((err, req, res, next) => {
   console.log('====================================');
   console.log(err);
@@ -33,9 +28,9 @@ const cron = require('node-cron');
 const getMenuApi = require('../scrap/getMenuAPI');
 
 
-getMenuApi()
-// 매 1시간마다 메뉴 api 실행
-cron.schedule('0 * * * * ', () => {
+// getMenuApi()
+// 매 30분 마다 메뉴 api 실행
+cron.schedule('*/30 * * * * ', () => {
   console.log('메뉴 api 실행 :', new Date().toISOString());
   getMenuApi()
 });
