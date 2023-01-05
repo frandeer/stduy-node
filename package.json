@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "seq": "sequelize-cli"
   },
   "keywords": [],
   "author": "",
@@ -21,12 +22,14 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
+    "apollo-server": "^3.11.1",
     "axios": "^1.2.1",
     "cheerio": "^1.0.0-rc.12",
     "commander": "^9.4.1",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "graphql": "^16.6.0",
     "koa": "^2.14.1",
     "koa-mount": "^4.0.0",
     "koa-pug": "^5.1.0",
@@ -38,7 +41,11 @@
     "node-cron": "^3.0.2",
     "node-fetch": "^2.6.6",
     "octokit": "^2.0.10",
+    "pg": "^8.8.0",
+    "prompts": "^2.4.2",
     "pug": "^3.0.2",
+    "sequelize": "^6.28.0",
+    "sequelize-cli": "^6.5.2",
     "tailwindcss": "^3.2.4",
     "unsplash-js": "^7.0.15"
   }
