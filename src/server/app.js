@@ -30,7 +30,7 @@ const getMenuApi = require('../scrap/getMenuAPI');
 
 // getMenuApi()
 // 매 30분 마다 메뉴 api 실행
-cron.schedule('*/1 * * * * ', () => {
+cron.schedule('*/30 * * * * ', () => {
   console.log('메뉴 api 실행 :', new Date());
   getMenuApi();
 });
