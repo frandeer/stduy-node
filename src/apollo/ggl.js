@@ -1,5 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
-const { Sequelize, DataTypes } = require('sequelize');
+const { User, City, sequelize } = require('./sequelize');
 
 const typeDefs = gql`
 
@@ -13,15 +13,14 @@ const typeDefs = gql`
   type City {
     id: Int!
     name: String!
+    users: [User]
   }
 
   type Query {
     users(search: String): [User]
   }
 
-  type Mutation {
-    addBook(title: String!, author: String!): Book
-  }
+
 `;
 
 
@@ -29,19 +28,65 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     users: async (_, { search }) =>
-      book.filter(b => b.title.includes(search) || b.author.includes(search)),
+      User.findAll()
   },
-  Mutation: {
-    addBook: (_, { title, author }) => {
-      const newBook = { title, author };
-      book.push(newBook);
-      return newBook;
+
+  User: {
+    city: async (user) => {
+
+      return City.findOne({
+        where: {
+          id: user.city_id
+        }
+      }
+      )
+    }
+  },
+
+  City: {
+    users: async (city) => {
+      return User.findAll({
+        where: {
+          city_id: city.id
+        }
+      })
     }
   }
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
 
-server.listen(5000).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+
+async function main() {
+
+  await sequelize.sync({ force: true });
+
+  const seoul = await City.build({
+    name: 'Seoul'
+  }).save();
+
+
+  await User.build({
+    name: 'John',
+    age: 20,
+    city_id: seoul.getDataValue('id')
+  }).save();
+
+  await User.build({
+    name: 'Jane',
+    age: 30
+  }).save();
+
+  await User.build({
+    name: 'Jack',
+    age: 40,
+    city_id: seoul.getDataValue('id')
+  }).save();
+
+  const server = new ApolloServer({ typeDefs, resolvers });
+
+  server.listen(5000).then(({ url }) => {
+    console.log(`🚀  Server ready at ${url}`);
+  });
+}
+
+main()

@@ -1,7 +1,5 @@
 // 네이버 api를 이용한 검색
 
-const cheerio = require('cheerio');
-const axios = require('axios');
 const getImage = require('./naverAPI');
 const getMenu = require('./getMenu');
 const { getJsonFile, setJsonFile } = require('./jsonFile');
@@ -15,9 +13,9 @@ async function start() {
   const today = dayjs().format('MM-DD');
 
   // 오늘 날짜와 menu.json 파일의 날짜가 다르면
-  if(data[0].date == today) {
-    console.log('오늘 메뉴가 이미 있습니다.');
-    return;
+  if (data[0].date == today) {
+    console.log(today, '오늘 메뉴가 이미 있습니다.');
+    return Promise.resolve(1)
   }
 
   getMenu().then((res) => {
@@ -25,14 +23,14 @@ async function start() {
     const todayCouLunchList = res.todayCouLunch.split(',');
 
     let list = []
-    for(var i = 0; i < todayKorLunchList.length; i++) {
+    for (var i = 0; i < todayKorLunchList.length; i++) {
       list.push({
         name: todayKorLunchList[i].trim(),
         type: '한식',
       })
     }
 
-    for(var i = 0; i < todayCouLunchList.length; i++) {
+    for (var i = 0; i < todayCouLunchList.length; i++) {
       list.push({
         name: todayCouLunchList[i].trim(),
         type: '일품',
@@ -62,11 +60,9 @@ async function start() {
         date: res.tomorrow,
       })
 
-
       setJsonFile(data)
-
     }).catch((err) => {
-        console.log(err);
+      console.log(err);
     })
 
   })
