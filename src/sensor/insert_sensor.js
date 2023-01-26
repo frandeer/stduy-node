@@ -11,10 +11,10 @@ const insertSensor = async () => {
 
   // console.log(sensorArray);
 
-  // await Sensor.insertMany(sensorArray, () => {
-  //   console.log('inserted sensor data')
-  // })
-  await mongo.disconnect()
+  await Sensor.insertMany(sensorArray, () => {
+    console.log('inserted sensor data')
+  })
+  // await mongo.disconnect()
 }
 
 insertSensor()
