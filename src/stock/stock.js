@@ -72,6 +72,8 @@ const getDays = async (url, name) => {
         const $ = cheerio.load(response.data);
         const jsonData = $('.no_today').eq(0).text().trim().split('\n')[0];
 
+        // 숫자로 변환
+        jsonData = Number(jsonData.replace(/,/g, ''))
         resolve({
           name: name,
           price: jsonData
