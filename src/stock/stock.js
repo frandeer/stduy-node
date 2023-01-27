@@ -1,34 +1,30 @@
 const express = require('express')
 const app = express()
+
 const axios = require('axios')
 const cheerio = require('cheerio')
-const PORT = 12020
+
+const PORT = 12010
+
 const Nightmare = require('nightmare')
 const nightmare = Nightmare({
-  show: false
+  show: false,
 });
+
 const cors = require('cors')
 app.use(cors())
 const vo = require('vo')
 const DAY_BASE_URL = 'https://finance.naver.com/item/main.nhn?code='
 const SISE_BASE_URL = 'https://finance.naver.com/item/sise_day.nhn?code='
 const companyList = [{
-  name: "삼성전자",
-  code: "005930"
+  name: "한화시스템",
+  code: "272210"
 },
 {
-  name: "네이버",
-  code: "035420"
-},
-{
-  name: "현대모비스",
-  code: "012330"
-},
-{
-  name: "카카오",
-  code: "035720"
-},
-]
+  name: "동화약품",
+  code: "000020"
+}]
+
 function* reqDays(url, name) {
   const resource = yield nightmare
     .goto(url)
@@ -68,39 +64,49 @@ const run = function* () {
   }
   return ret
 }
-const reqToday = (url, name) => {
+
+const getDays = async (url, name) => {
   return new Promise((resolve, reject) => {
     axios.get(url)
-      .then((res) => {
-        const $ = cheerio.load(res.data)
-        const data = $('.no_today').eq(0).text().trim().split('\n')[0];
-        const numData = ~~data.split(',')[0] * 1000 + ~~data.split(',')[1]
+      .then(response => {
+        const $ = cheerio.load(response.data);
+        const jsonData = $('.no_today').eq(0).text().trim().split('\n')[0];
+
         resolve({
-          [name]: numData
+          name: name,
+          price: jsonData
         })
+
       })
-      .catch(e => resolve(null))
-  });
+      .catch(error => reject(error));
+  })
 }
 
 app.get('/stocks/today', async (req, res) => {
-  const urlList = companyList.map(e => reqToday(DAY_BASE_URL + e.code, e.name))
-  const ret = await Promise.all(urlList)
-  let obj = {}
-  ret.forEach(e => {
-    obj = {
-      ...e,
-      ...obj
-    }
-  })
+
+  let result = []
+  const list = companyList.map(c => getDays(DAY_BASE_URL + c.code, c.name));
+  const ret = await Promise.all(list)
+
+  const obj = ret.reduce((acc, curr) => {
+    // 숫자로 변환
+    curr.price = Number(curr.price.replace(/,/g, ''))
+    acc[curr.name] = curr.price
+    return acc
+  }, {})
+
   res.send(obj)
 })
+
+
 app.get('/stocks/days', (req, res) => {
   vo(run)(function (err, data) {
     if (err) console.log(`err : ${err}`)
     res.send(data)
   })
 })
+
+
 app.listen(PORT, () => {
-  console.log(`서버가 시작되었습니다.http://127.0.0.1:${PORT}`)
+  console.log(`server is running on http://localhost:${PORT}`)
 })
