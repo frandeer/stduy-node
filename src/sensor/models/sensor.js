@@ -5,7 +5,7 @@ const sensorSchema = new Schema({
   id: Number,
   time: Date,
   temp: Number,
-  wv: Number,
+  Pwv: Number,
   humi: Number
 })
 
