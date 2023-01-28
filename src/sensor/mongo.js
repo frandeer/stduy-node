@@ -7,8 +7,13 @@ const HOST = 'localhost:27017'
 const DB = 'sensor'
 const mongodbURL = `mongodb://${USER}:${PWD}@${HOST}/${DB}`
 mongoose.set('strictQuery', true)
+
+mongoose.isConnected = false
+
 mongoose.connect(mongodbURL, { useNewUrlParser: true })
-  .then(() => console.log('connection succesful'))
+  .then(() =>
+    mongoose.isConnected = true
+  )
   .catch((err) => console.error(err))
 
 mongoose.connection.on("error", err => {
