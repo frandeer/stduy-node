@@ -11,7 +11,7 @@ const io = require('socket.io')(http, {
 });
 const log = console.log
 
-const mongo = require('./mongo');
+const mongo = require('../node/mongo');
 const util = require('./util')();
 let userList = [], idx = 0;
 

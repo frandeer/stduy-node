@@ -1,4 +1,4 @@
-const mongo = require('./mongo')
+const mongo = require('../node/mongo')
 const Sensor = require('./models/sensor')
 
 const insertSensor = async () => {

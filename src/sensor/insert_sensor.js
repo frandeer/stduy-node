@@ -1,4 +1,4 @@
-const mongo = require('./mongo')
+const mongo = require('../node/mongo')
 
 const csv = require('csvtojson')
 const path = require('path')
