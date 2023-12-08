@@ -1,70 +1,80 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8" />
-<title>3D Terrain</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
-<link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
-<style>
- body { margin: 0; padding: 0; }
- #map { position: absolute; top: 0; bottom: 0; width: 100%; }
-</style>
+    <meta charset="utf-8" />
+    <title>3D Terrain</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
+
 <body>
-<div id="map"></div>
-<script>
-var map = (window.map = new maplibregl.Map({
-container: 'map',
-zoom: 12,
-center: [11.39085, 47.27574],
-pitch: 52,
-hash: true,
-style: {
-version: 8,
-sources: {
-osm: {
-type: 'raster',
-tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
-tileSize: 256,
-attribution: '&copy; OpenStreetMap Contributors',
-maxzoom: 19
-},
-terrainSource: {
-type: 'raster-dem',
-tiles: ['https://api.ellipsis-drive.com/v3/path/085f5e10-63b6-4e8f-a4c6-dce9689100d3/raster/timestamp/3179fa80-60ad-41c7-ae67-cdd5eeeca693/tile/{z}/{x}/{y}?style={"method":"terrainRgb", "parameters":{"alpha":1, "bandNumber":1} }],
-tileSize: 256
-},
-},
-layers: [
-{
-id: 'osm',
-type: 'raster',
-source: 'osm'
-},
-],
-terrain: {
-source: 'terrainSource',
-exaggeration: 1
-}
-},
-maxZoom: 18,
-maxPitch: 85
-}));
- 
-map.addControl(
-new maplibregl.NavigationControl({
-visualizePitch: true,
-showZoom: true,
-showCompass: true
-})
-);
- 
-map.addControl(
-new maplibregl.TerrainControl({
-source: 'terrainSource',
-exaggeration: 1
-})
-);
-</script>
- 
+    <div id="map"></div>
+    <script>
+        var map = (window.map = new maplibregl.Map({
+            container: 'map',
+            zoom: 12,
+            center: [11.39085, 47.27574],
+            pitch: 52,
+            hash: true,
+            style: {
+                version: 8,
+                sources: {
+                    osm: {
+                        type: 'raster',
+                        tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        attribution: '&copy; OpenStreetMap Contributors',
+                        maxzoom: 19
+                    },
+                    terrainSource: {
+                        type: 'raster-dem',
+                        tiles: ['https://api.ellipsis-drive.com/v3/path/085f5e10-63b6-4e8f-a4c6-dce9689100d3/raster/timestamp/3179fa80-60ad-41c7-ae67-cdd5eeeca693/tile/{z}/{x}/{y}?style={"method":"terrainRgb", "parameters":{"alpha":1, "bandNumber":1} }'],
+                        tileSize: 256
+                    },
+                },
+                layers: [
+                    {
+                        id: 'osm',
+                        type: 'raster',
+                        source: 'osm'
+                    },
+                ],
+                terrain: {
+                    source: 'terrainSource',
+                    exaggeration: 1
+                }
+            },
+            maxZoom: 18,
+            maxPitch: 85
+        }));
+
+        map.addControl(
+            new maplibregl.NavigationControl({
+                visualizePitch: true,
+                showZoom: true,
+                showCompass: true
+            })
+        );
+
+        map.addControl(
+            new maplibregl.TerrainControl({
+                source: 'terrainSource',
+                exaggeration: 1
+            })
+        );
+    </script>
